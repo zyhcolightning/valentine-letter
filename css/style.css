@@ -1,0 +1,794 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* avoid vertical centering that causes overflow */
+    padding: 20px 20px 60px; /* extra bottom padding for fixed controls */
+}
+
+.container {
+    max-width: 1100px;
+    width: min(1100px, 96vw);
+    position: relative;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Layout: separate message and gallery */
+.content-wrapper {
+    display: flex;
+    gap: 30px;
+    align-items: stretch;
+    width: 100%;
+}
+
+.message-container {
+    flex: 1 1 65%;
+    min-width: 320px;
+}
+
+.gallery-container {
+    flex: 0 0 33%;
+    max-width: 420px;
+    min-width: 260px;
+}
+
+/* Ensure both columns behave as vertical flex containers so their children
+   (the envelope and the photo section) can stretch to equal height. */
+.message-container,
+.gallery-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Allow flex children to shrink below their min-content to avoid horizontal scroll */
+.message-container,
+.gallery-container,
+.content-wrapper,
+.photo-gallery {
+    min-width: 0;
+}
+
+.envelope {
+    background: #f4f4f4;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.envelope:hover {
+    transform: translateY(-5px);
+}
+
+.envelope::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8787, #ffa5a5, #ff6b6b);
+    border-radius: 15px;
+    z-index: -1;
+    opacity: 0.7;
+    filter: blur(10px);
+}
+
+.letter-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.letter-header h1 {
+    color: #e63946;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    animation: fadeInDown 1s ease-out;
+}
+
+.letter-date {
+    color: #666;
+    font-style: italic;
+    font-size: 0.9em;
+    animation: fadeIn 1.5s ease-out;
+}
+
+.letter-body {
+    color: #333;
+    line-height: 1.8;
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    animation: fadeIn 2s ease-out;
+}
+
+.letter-body p {
+    margin-bottom: 15px;
+    text-align: justify;
+    position: relative;
+    animation: slideInText 0.8s ease-out backwards;
+}
+
+.letter-body p:nth-child(1) { animation-delay: 0.2s; }
+.letter-body p:nth-child(2) { animation-delay: 0.4s; }
+.letter-body p:nth-child(3) { animation-delay: 0.6s; }
+.letter-body p:nth-child(4) { animation-delay: 0.8s; }
+.letter-body p:nth-child(5) { animation-delay: 1s; }
+.letter-body p:nth-child(6) { animation-delay: 1.2s; }
+.letter-body p:nth-child(7) { animation-delay: 1.4s; }
+.letter-body p:nth-child(8) { animation-delay: 1.6s; }
+
+.letter-signature {
+    text-align: right;
+    font-style: italic;
+    color: #666;
+    margin-top: 30px;
+    animation: fadeIn 2.5s ease-out;
+}
+
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ff6b6b;
+    transform: rotate(-45deg); /* corrected orientation */
+    animation: float 3s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ff6b6b;
+    border-radius: 50%;
+}
+
+.heart::before {
+    top: -10px;
+    left: 0;
+}
+
+.heart::after {
+    left: 10px;
+    top: 0;
+}
+
+.interactive-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.click-heart {
+    position: absolute;
+    font-size: 30px;
+    animation: rise 2s ease-out forwards;
+    pointer-events: none;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: auto; /* push to bottom of envelope */
+    padding-top: 18px;
+}
+
+.love-button {
+    background: linear-gradient(135deg, #ff6b6b, #e63946);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1em;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(230, 57, 70, 0.4);
+    transition: all 0.3s;
+    font-family: 'Georgia', serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.love-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(230, 57, 70, 0.6);
+}
+
+.love-button:active {
+    transform: scale(0.95);
+}
+
+.love-button.surprise {
+    animation: surpriseAnimation 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInText {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: rotate(-45deg) translateY(0);
+    }
+    50% {
+        transform: rotate(-45deg) translateY(-20px);
+    }
+}
+
+@keyframes rise {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-200px) scale(1.5);
+    }
+}
+
+.floating-hearts-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Background emoji (airplanes and rings) */
+.bg-emoji {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.9;
+    transform-origin: center;
+    will-change: transform, opacity;
+}
+
+.bg-emoji.airplane { font-size: 28px; }
+.bg-emoji.rings { font-size: 26px; }
+
+@keyframes driftUpSlow {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.9; }
+    50% { transform: translateY(-10vh) translateX(6vw) rotate(10deg); opacity: 1; }
+    100% { transform: translateY(-22vh) translateX(-6vw) rotate(-8deg); opacity: 0.8; }
+}
+
+@keyframes driftFloat {
+    0% { transform: translateY(0) translateX(0) rotate(-2deg); }
+    50% { transform: translateY(-6vh) translateX(3vw) rotate(4deg); }
+    100% { transform: translateY(-12vh) translateX(-3vw) rotate(-2deg); }
+}
+
+/* Slightly slower, gentler motion for rings */
+.bg-emoji { animation: driftFloat 18s linear infinite; }
+.bg-emoji.airplane { animation-duration: 12s; }
+.bg-emoji.rings { animation-duration: 22s; }
+
+.photo-section {
+    /* top spacing is handled inside the gallery-specific rule; keep generic spacing minimal */
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 2px dashed #ffb3ba;
+}
+
+.photo-section h2 {
+    color: #e63946;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+/* Gallery uses the same envelope visual treatment as the message */
+.gallery-container .photo-section {
+    background: #f4f4f4;
+    padding: 36px;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.gallery-container .photo-section:hover {
+    transform: translateY(-5px);
+}
+
+.gallery-container .photo-section::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8787, #ffa5a5, #ff6b6b);
+    border-radius: 15px;
+    z-index: -1;
+    opacity: 0.7;
+    filter: blur(10px);
+}
+
+.gallery-container .photo-gallery {
+    /* Allow gallery to expand with its container; no internal scrollbar */
+    max-height: none;
+    overflow: visible;
+    padding: 10px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    align-content: start;
+    flex: 1 1 auto;
+}
+
+.gallery-container .photo-item {
+    border-radius: 12px;
+}
+
+.photo-upload {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.upload-btn {
+    background: linear-gradient(135deg, #ffa5a5, #ff8787);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1em;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 165, 165, 0.4);
+    transition: all 0.3s;
+    font-family: 'Georgia', serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(255, 165, 165, 0.6);
+}
+
+.upload-btn-wrapper input[type=file] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.photo-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+    animation: photoFadeIn 0.5s ease-out;
+    width: 100%;
+    height: 100%;
+}
+
+/* Prevent grid items from forcing the grid wider than its container */
+.photo-item { min-width: 0; }
+
+.photo-item:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-item .delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(230, 57, 70, 0.9);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.photo-item:hover .delete-btn {
+    opacity: 1;
+}
+
+.delete-btn:hover {
+    background: rgba(230, 57, 70, 1);
+    transform: scale(1.1);
+}
+
+.photo-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 20px 10px 10px;
+    font-size: 0.9em;
+    text-align: center;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+}
+
+.photo-item:hover .photo-caption {
+    transform: translateY(0);
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: white;
+    color: #333;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.lightbox-close:hover {
+    transform: rotate(90deg);
+    background: #ff6b6b;
+    color: white;
+}
+
+.empty-gallery {
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    padding: 40px;
+    border: 2px dashed #ddd;
+    border-radius: 15px;
+}
+
+@keyframes photoFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.constellation {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.cursor-glow {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgba(255, 107, 107, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1001;
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        width: 30px;
+        height: 30px;
+        opacity: 0.5;
+    }
+    50% {
+        width: 40px;
+        height: 40px;
+        opacity: 0.3;
+    }
+}
+
+.confetti {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999;
+    animation: confettiFall 3s ease-out forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        opacity: 1;
+        transform: translateY(-10px) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,107,107,0.5) 0%, rgba(255,107,107,0) 70%);
+    animation: rippleEffect 0.8s ease-out;
+    pointer-events: none;
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.glitch {
+    position: relative;
+    animation: glitch 0.3s ease-out;
+}
+
+@keyframes glitch {
+    0%, 100% {
+        transform: translate(0);
+    }
+    20% {
+        transform: translate(-2px, 2px);
+    }
+    40% {
+        transform: translate(-2px, -2px);
+    }
+    60% {
+        transform: translate(2px, 2px);
+    }
+    80% {
+        transform: translate(2px, -2px);
+    }
+}
+
+.pulse-text {
+    animation: pulseText 1s ease-in-out;
+}
+
+@keyframes pulseText {
+    0%, 100% {
+        color: #e63946;
+    }
+    50% {
+        color: #ff6b6b;
+        text-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+    }
+}
+
+@keyframes surpriseAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.15) rotate(-5deg);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.music-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ff6b6b, #e63946);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 5px 20px rgba(230, 57, 70, 0.4);
+    transition: all 0.3s;
+    z-index: 100;
+}
+
+.music-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(230, 57, 70, 0.6);
+}
+
+.music-toggle.playing {
+    animation: musicPulse 1s infinite;
+}
+
+@keyframes musicPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@media (max-width: 600px) {
+    .letter-header h1 {
+        font-size: 2em;
+    }
+    
+    .letter-body {
+        font-size: 1em;
+    }
+    
+    .envelope {
+        padding: 20px;
+    }
+
+    .photo-gallery {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .lightbox-close {
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+    }
+
+    .music-toggle {
+        bottom: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 900px) {
+    .content-wrapper {
+        flex-direction: column-reverse;
+        gap: 18px;
+    }
+
+    .gallery-container {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+    }
+
+    .message-container, .gallery-container {
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 420px) {
+    .gallery-container {
+        min-width: 0;
+    }
+
+    .envelope, .gallery-container .photo-section {
+        padding: 16px;
+    }
+
+    .letter-header h1 { font-size: 1.6em; }
+    .letter-body { font-size: 0.98em; }
+}

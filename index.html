@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day ❤️</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="floating-hearts-bg" id="floatingHearts"></div>
+    <div class="interactive-hearts" id="interactiveHearts"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <button class="music-toggle" id="musicToggle" title="Toggle background music">🎵</button>
+    <audio id="bgMusic" src="music.mp3" loop preload="none"></audio>
+    
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="message-container">
+                <div class="envelope">
+                    <div class="letter-header">
+                        <h1>To the One I Love Forever ❤️</h1>
+                        <p class="letter-date">February 14, 2026</p>
+                    </div>
+                    
+                    <div class="letter-body">
+                        <p>My Dearest Alex,</p>
+                        
+                        <p>I know things have been quiet between us lately. We're both taking this time to grow, to become better versions of ourselves. But even in this silence, even in this space we've created, there's something I need you to know — something that distance and time could never change.</p>
+                        
+                        <p>I love you. Deeply, completely, unconditionally. No matter what situation we're in, no matter how many days pass without hearing your voice, that truth remains constant. It's woven into every thought I have, every breath I take.</p>
+                        
+                        <p>I miss you. I miss everything about you — your laugh that could light up the darkest room, the way you see the world, the comfort of knowing you're there. The quiet without you feels heavier than I ever imagined it could. Every day, I find myself yearning for the little moments we shared, the ones I maybe didn't appreciate enough when I had them.</p>
+                        
+                        <p>I know I'm the reason we're here. I know my mistakes brought us to this cool-off stage, and I carry that weight with me. But I also carry hope — hope that this time apart is making me into someone worthy of your love, someone who can cherish you the way you've always deserved.</p>
+                        
+                        <p>You are the one I want to love for my whole life. Not just today, not just on Valentine's Day, but every single day that follows. When we find our way back to each other — and I believe we will — I promise to love you better, stronger, and more intentionally than I ever have before.</p>
+                        
+                        <p>I hope you're doing okay. I hope you're taking care of yourself, finding your strength, and becoming the person you want to be. And when you're ready, I'll be here. Waiting. Not because I have to, but because you're worth every moment of waiting.</p>
+                        
+                        <p>Until we're together again, know that you're loved. Know that you're missed. And know that my heart has always been, and will always be, yours.</p>
+                        
+                        <p class="letter-signature">
+                            Forever waiting, forever loving,<br>
+                            <strong>Forever yours.</strong> 💕
+                        </p>
+                    </div>
+                    
+                    <div class="button-container">
+                        <button class="love-button" onclick="showLove()">Click to receive Love! 💋</button>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="gallery-container">
+                <div class="photo-section">
+                    <h2>Our Memories Together 📸</h2>
+                    
+                    <div class="photo-upload">
+                        <div class="upload-btn-wrapper">
+                            <button class="upload-btn">📷 Add Photos</button>
+                            <input type="file" id="photoInput" accept="image/*" multiple>
+                        </div>
+                        <button class="upload-btn" onclick="resetGallery()" style="margin-left: 10px; background: linear-gradient(135deg, #a29bfe, #6c5ce7);">
+                            🔄 Reset Gallery
+                        </button>
+                    </div>
+                    <div class="photo-gallery" id="photoGallery">
+                        <div class="empty-gallery">
+                            Click "Add Photos" to upload your favorite memories together ❤️
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">×</button>
+        <img id="lightboxImg" src="" alt="Full size image">
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
